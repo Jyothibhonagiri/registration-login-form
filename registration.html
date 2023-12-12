@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>registration form</title>
+        <link rel="stylesheet" href="login.css">
+    </head>
+    <body>
+        <header id="head-section">
+            <h1>registration form</h1>
+        </header>
+            <div id="login-section">
+                <h1>Login</h1>
+                <form>
+                    <label>Email</label>
+                    <input type="text" value="" placeholder="enter your email" id="l-email"/><br><br>
+                    <label>password</label>
+                    <input type="password" value="" placeholder="enter your password" id="l-password"/><br><br>
+                    <button id="login-btn" onclick="login(event)">Login</button>
+                </form>
+            </div>
+            <div id="registration-section">
+                <h1>registration</h1>
+                <form>
+                    <label>Email</label>
+                    <input type="text" value="" placeholder="enter your email" id="s-email"/><br><br>
+                    <label>name</label>
+                    <input type="name" value="" placeholder="enter your name" id="s-name"/><br><br>
+                    <label>contact number</label>
+                    <input type="number" value=""  id="s-number"/><br><br>
+                    <button id="signup-btn" onclick="signup(event)">submit</button>
+                    <p>Alredy  have an account please <a href="#" onclick="goToLogin()">Login</a> here</p>
+                </form>
+            </div>
+            
+        </main>
+        <script>
+            let registrationDiv = document.getElementById("registration-section")
+            let loginDiv = document.getElementById("login-section")
+            loginDiv.style.display="none"
+            function goTosignup(){
+                registrationDiv.style.display="block"
+                loginDiv.style.display="none"
+               
+            }
+            function goToLogin(){
+                loginDiv.style.display="block"
+                registrationDiv.style.display="none"
+               
+            }
+            async function signup(e){
+                e.preventDefault();
+                let email = document.getElementById("s-email").value;
+                let name=document.getElementById("s-name").value;
+                let  number=document.getElementById("s-number").value;
+                console.log(email,name, number)
+                await localStorage.setItem(email,name,number)
+                
+                goToLogin();
+
+            }
+            async function login(event){
+                event.preventDefault()
+                let email = document.getElementById("l-email").value
+                let password=document.getElementById("l-password").value
+                let user = await localStorage.getItem(email)
+                if(!user){
+                    alert("user not found")
+                }else{
+                    if(user===password){
+                        alert("login success")
+                        localStorage.setItem("loggedInUser",email)
+                        goToDashboard(email)
+                    }else{
+                        alert("invalid credentials")
+                    }
+                }
+            }
+        </script>
+    </body>
+</html>
